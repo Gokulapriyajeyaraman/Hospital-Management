@@ -1,5 +1,16 @@
-# Doctorly - A Doctor Booking Application
+# DOCTORLY - A Doctor Booking Application
 Doctorly is a doctor booking application developed with the MERN stack, offering a streamlined experience for patients to book appointments and efficient management tools for healthcare professionals.
 
-# Overview
-Doctorly is your ultimate platform for effortless doctor consultations. With a user-friendly interface and a comprehensive database of doctors, finding the right healthcare provider is quick and easy. Navigate seamlessly through detailed doctor profiles, specialties, and availability to make informed decisions. Enjoy a secure booking process and receive instant confirmation. For healthcare providers, our robust dashboard offers appointment management and insightful analytics to improve patient care and optimize schedules. Experience the future of healthcare management with Doctorly today.
+# Purpose:
+The purpose of the "Book a Doctor" project is to create a platform where users can easily book appointments with doctors, view available slots, and manage their bookings. It simplifies the process of scheduling medical consultations by providing a seamless online solution
+
+# Features:
+- User registration and login functionality. 
+- Search and filter options for doctors based on specialization and location. 
+- View doctor profiles with details like qualifications and availability. 
+- Book, reschedule, or cancel appointments. 
+- Real-time notifications for booking confirmation and updates. 
+- Admin panel for managing doctors, users, and appointments.
+
+# Demo Link
+https://drive.google.com/file/d/1ufBzBs_efAAeRyHigOOXsl2Rx8RR4rsP/view?usp=drivesdk
