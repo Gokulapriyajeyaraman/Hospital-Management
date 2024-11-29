@@ -16,4 +16,4 @@ The purpose of the "Book a Doctor" project is to create a platform where users c
 https://drive.google.com/file/d/1ufBzBs_efAAeRyHigOOXsl2Rx8RR4rsP/view?usp=drivesdk
 
 # Project Report Link
-https://drive.google.com/file/d/1p1ksiDGsAFFfGEmgaHchQno8LjkIcQmU/view?usp=sharing
+https://drive.google.com/file/d/19HwAjcZaMbeCUDr4DsiW1NeJ-Q1YnbIv/view?usp=drivesdk
