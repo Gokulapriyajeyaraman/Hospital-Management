@@ -1,14 +1,70 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function Bookform({ isOpen, closeModal }) {
-    if (!isOpen) return null; 
+    if (!isOpen) return null;
+
+    // State hooks to capture the form data
+    const [name, setName] = useState('');
+    const [userId, setUserId] = useState('');
+    const [age, setAge] = useState('');
+    const [date, setDate] = useState('');
+    const [timeSegment, setTimeSegment] = useState(''); // Initially empty or default value
+    const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+
+    // Handle form submission
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        // Validate form fields
+        if (!name || !userId || !age || !date || !timeSegment) {
+            setError('Please fill in all required fields.');
+            return;
+        }
+
+        const formData = {
+            name,
+            userId,
+            age,
+            appointmentDate: date,
+            timeSegment,
+            message,
+        };
+
+        try {
+            const response = await fetch('http://localhost:5000/book-appointment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setSuccessMessage('Appointment booked successfully!');
+                // Display alert with patient details
+                alert(
+                    `Appointment successfully booked!\n\nPatient Details:\nName: ${name}\nUser ID: ${userId}\nAge: ${age}\nDate: ${date}\nTime Segment: ${timeSegment}`
+                );
+                closeModal(); // Close the modal after successful booking
+            } else {
+                setError(data.message || 'Failed to book appointment');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setError('An error occurred while booking the appointment');
+        }
+    };
 
     return (
         <div>
             <div
                 id="static-modal"
                 data-modal-backdrop="static"
-                className="overflow-y-auto overflow-x-hidden fixed  z-50 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+                className="overflow-y-auto overflow-x-hidden fixed z-50 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
             >
                 <div className="relative p-4 w-full max-w-2xl max-h-full">
                     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -25,124 +81,78 @@ function Bookform({ isOpen, closeModal }) {
                         </div>
 
                         <div className="p-4">
-                        
-                            <form className="max-w-sm mx-auto mb-4">
+                            {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
+                            {successMessage && <div className="text-green-500 text-sm mb-4">{successMessage}</div>}
+
+                            <form onSubmit={handleSubmit} className="max-w-sm mx-auto mb-4">
                                 <label htmlFor="patient-name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Patient's Name</label>
                                 <input
                                     type="text"
                                     id="patient-name"
-                                    className="block w-full text-sm p-2.5 bg-gray-50 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-500 dark:focus:border-teal-500"
+                                    className="block w-full text-sm p-2.5 bg-gray-50 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                                     placeholder="Enter your name"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    required
                                 />
-                            </form>
 
-                       
-                            <form className="max-w-sm mx-auto mb-4">
-                                <label htmlFor="user-id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User ID</label>
+                                <label htmlFor="patient-id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User ID</label>
                                 <input
                                     type="text"
-                                    id="user-id"
-                                    className="block w-full text-sm p-2.5 bg-gray-50 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-500 dark:focus:border-teal-500"
+                                    id="patient-id"
+                                    className="block w-full text-sm p-2.5 bg-gray-50 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                                     placeholder="Enter your user ID"
+                                    value={userId}
+                                    onChange={(e) => setUserId(e.target.value)}
+                                    required
                                 />
-                            </form>
 
-                            <form className="max-w-sm mx-auto mb-4">
-                                <label htmlFor="user-id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Age</label>
+                                <label htmlFor="patient-age" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Age</label>
                                 <input
-                                    type="text"
-                                    id="user-id"
-                                    className="block w-full text-sm p-2.5 bg-gray-50 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-500 dark:focus:border-teal-500"
-                                    placeholder="Enter your user ID"
+                                    type="number"
+                                    id="patient-age"
+                                    className="block w-full text-sm p-2.5 bg-gray-50 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                                    placeholder="Enter your age"
+                                    value={age}
+                                    onChange={(e) => setAge(e.target.value)}
+                                    required
                                 />
-                            </form>
 
-
-                           
-                         
-                            <form className="max-w-sm mx-auto mb-4">
-                                <label htmlFor="appointment-date" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of Appointment</label>
+                                <label htmlFor="appointment-date" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Appointment Date</label>
                                 <input
                                     type="date"
                                     id="appointment-date"
-                                    className="block w-full text-sm p-2.5 bg-gray-50 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-500 dark:focus:border-teal-500"
+                                    className="block w-full text-sm p-2.5 bg-gray-50 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                                    value={date}
+                                    onChange={(e) => setDate(e.target.value)}
+                                    required
                                 />
-                            </form>
 
-                     
-                            <label htmlFor="appointment-time" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Segment of the day</label>
-                            <div className="mb-4">
-                                <div className="flex items-center mb-2">
-                                    <input
-                                        id="forenoon-radio"
-                                        type="radio"
-                                        value="forenoon"
-                                        name="appointment-time"
-                                        className="w-4 h-4 text-teal-600 bg-gray-100 border-gray-300 focus:ring-teal-500 dark:focus:ring-teal-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                    />
-                                    <label htmlFor="forenoon-radio" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Forenoon</label>
-                                </div>
-                                <div className="flex items-center mb-2">
-                                    <input
-                                        id="afternoon-radio"
-                                        type="radio"
-                                        value="afternoon"
-                                        name="appointment-time"
-                                        className="w-4 h-4 text-teal-600 bg-gray-100 border-gray-300 focus:ring-teal-500 dark:focus:ring-teal-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                    />
-                                    <label htmlFor="afternoon-radio" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Afternoon</label>
-                                </div>
-                                <div className="flex items-center mb-2">
-                                    <input
-                                        id="evening-radio"
-                                        type="radio"
-                                        value="evening"
-                                        name="appointment-time"
-                                        className="w-4 h-4 text-teal-600 bg-gray-100 border-gray-300 focus:ring-teal-500 dark:focus:ring-teal-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                    />
-                                    <label htmlFor="evening-radio" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Evening</label>
-                                </div>
-                            </div>
+                                <label htmlFor="time-segment" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time Segment</label>
+                                <select
+                                    id="time-segment"
+                                    className="block w-full text-sm p-2.5 bg-gray-50 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                                    value={timeSegment}
+                                    onChange={(e) => setTimeSegment(e.target.value)}
+                                    required
+                                >
+                                    <option value="">Select Time Segment</option>
+                                    <option value="Morning">Morning</option>
+                                    <option value="Afternoon">Afternoon</option>
+                                    <option value="Evening">Evening</option>
+                                </select>
 
-                 
-                            <form className="max-w-sm mx-auto mb-4">
-                                <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your message</label>
+                                <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Message</label>
                                 <textarea
                                     id="message"
-                                    rows="4"
-                                    className="block w-full p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-500 dark:focus:border-teal-500"
-                                    placeholder="Leave a comment..."
-                                ></textarea>
-                            </form>
-
-                     
-                            <div className="flex items-center mb-4">
-                                <input
-                                    id="checkbox-1"
-                                    type="checkbox"
-                                    value=""
-                                    className="w-4 h-4 text-teal-600 bg-gray-100 border-gray-300 rounded focus:ring-teal-500 dark:focus:ring-teal-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                    className="block w-full text-sm p-2.5 bg-gray-50 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                                    placeholder="Enter any additional message"
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
                                 />
-                                <label htmlFor="checkbox-1" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                    I agree to the <a href="#" className="text-teal-600 hover:underline dark:text-teal-500">terms and conditions</a>.
-                                </label>
-                            </div>
-                        </div>
 
-                      
-                        <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                            <button
-                                onClick={closeModal}
-                                className="text-white bg-teal-700 hover:bg-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
-                            >
-                                Book my appointment
-                            </button>
-                            <button
-                                onClick={closeModal}
-                                className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-teal-700"
-                            >
-                                Decline
-                            </button>
+                                <button type="submit" className="bg-blue-500 text-white p-2.5 rounded-md mt-4">Book Appointment</button>
+                            </form>
                         </div>
                     </div>
                 </div>
