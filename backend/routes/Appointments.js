@@ -3,7 +3,7 @@ const Appointment = require('../models/Appointment');
 
 const router = express.Router();
 
-// Create a new appointment
+
 router.post('/', async (req, res) => {
     try {
         const appointment = new Appointment(req.body);
@@ -14,7 +14,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Get all appointments (optional, for testing)
 router.get('/', async (req, res) => {
     try {
         const appointments = await Appointment.find();
