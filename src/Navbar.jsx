@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import Modal from "./Modal"; // Import the Modal component
+import Profile from "./Profile";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false); // State for the menu
   const [isModalOpen, setIsModalOpen] = useState(false); // State for the modal
+  const [openProfile, setProfileOpen] = useState(false); // State for profile visibility
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const handleProfile = () => {
+    setProfileOpen(!openProfile); // Toggle the profile visibility
+  };
 
   return (
     <>
@@ -64,12 +70,12 @@ const Navbar = () => {
                 </button>
               </li>
               <li>
-                <a
-                  href="#"
+                <button
+                  onClick={handleProfile} // Handle profile toggle
                   className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-teal-500 md:p-0 text-white md:hover:text-teal-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
                 >
-                  Order Medicine
-                </a>
+                  Profile
+                </button>
               </li>
             </ul>
           </div>
@@ -123,6 +129,9 @@ const Navbar = () => {
           </button>
         </form>
       </Modal>
+
+      {/* Profile Component */}
+      <Profile isVisible={openProfile} handleClose={handleProfile} />
     </>
   );
 };
