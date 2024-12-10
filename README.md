@@ -17,3 +17,6 @@ https://drive.google.com/file/d/1ufBzBs_efAAeRyHigOOXsl2Rx8RR4rsP/view?usp=drive
 
 # Project Report Link
 https://drive.google.com/file/d/19HwAjcZaMbeCUDr4DsiW1NeJ-Q1YnbIv/view?usp=drivesdk
+
+#Project Presentation Link 
+https://docs.google.com/presentation/d/1WOThf5WITycEucm5ONRdwJR4ARqO5YZS/edit?usp=drivesdk&ouid=106901382176403550046&rtpof=true&sd=true
