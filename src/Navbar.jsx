@@ -1,19 +1,25 @@
 import React, { useState } from "react";
 import Modal from "./Modal"; // Import the Modal component
+import Profile from "./Profile";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false); // State for the menu
   const [isModalOpen, setIsModalOpen] = useState(false); // State for the modal
+<<<<<<< HEAD
   const [submitted, setSubmitted] = useState(false); // State for form submission
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     date: "",
   }); // State to hold form data
+=======
+  const [openProfile, setProfileOpen] = useState(false); // State for profile visibility
+>>>>>>> a45cd15744d54975c342efb7cd56207d16f4986c
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+<<<<<<< HEAD
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevent the page from refreshing on form submission
     setSubmitted(true); // Set the form submission state to true
@@ -22,6 +28,10 @@ const Navbar = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+=======
+  const handleProfile = () => {
+    setProfileOpen(!openProfile); // Toggle the profile visibility
+>>>>>>> a45cd15744d54975c342efb7cd56207d16f4986c
   };
 
   return (
@@ -80,12 +90,12 @@ const Navbar = () => {
                 </button>
               </li>
               <li>
-                <a
-                  href="#"
+                <button
+                  onClick={handleProfile} // Handle profile toggle
                   className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-teal-500 md:p-0 text-white md:hover:text-teal-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
                 >
-                  Order Medicine
-                </a>
+                  Profile
+                </button>
               </li>
             </ul>
           </div>
@@ -154,6 +164,9 @@ const Navbar = () => {
           </form>
         )}
       </Modal>
+
+      {/* Profile Component */}
+      <Profile isVisible={openProfile} handleClose={handleProfile} />
     </>
   );
 };
