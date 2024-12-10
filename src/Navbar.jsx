@@ -4,9 +4,25 @@ import Modal from "./Modal"; // Import the Modal component
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false); // State for the menu
   const [isModalOpen, setIsModalOpen] = useState(false); // State for the modal
+  const [submitted, setSubmitted] = useState(false); // State for form submission
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    date: "",
+  }); // State to hold form data
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevent the page from refreshing on form submission
+    setSubmitted(true); // Set the form submission state to true
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   return (
     <>
@@ -100,28 +116,43 @@ const Navbar = () => {
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <h2 className="text-2xl font-bold mb-4">Book a Test</h2>
         <p className="mb-4">Fill in the details to book your test.</p>
-        <form>
-          <input
-            type="text"
-            placeholder="Your Name"
-            className="block w-full p-2 mb-4 border rounded"
-          />
-          <input
-            type="email"
-            placeholder="Your Email"
-            className="block w-full p-2 mb-4 border rounded"
-          />
-          <input
-            type="date"
-            className="block w-full p-2 mb-4 border rounded"
-          />
-          <button
-            type="submit"
-            className="w-full bg-teal-600 text-white py-2 rounded hover:bg-teal-700"
-          >
-            Submit
-          </button>
-        </form>
+
+        {/* Display confirmation message */}
+        {submitted ? (
+          <p className="text-center text-green-500">We will contact you through email.</p>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Your Name"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              className="block w-full p-2 mb-4 border rounded"
+            />
+            <input
+              type="email"
+              placeholder="Your Email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              className="block w-full p-2 mb-4 border rounded"
+            />
+            <input
+              type="date"
+              name="date"
+              value={formData.date}
+              onChange={handleInputChange}
+              className="block w-full p-2 mb-4 border rounded"
+            />
+            <button
+              type="submit"
+              className="w-full bg-teal-600 text-white py-2 rounded hover:bg-teal-700"
+            >
+              Submit
+            </button>
+          </form>
+        )}
       </Modal>
     </>
   );
